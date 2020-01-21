@@ -1,0 +1,115 @@
+import axios from 'axios'
+import {Message} from 'element-ui';
+import router from '../router'
+
+//axios.defaults.withCredentials = true;
+
+axios.interceptors.response.use(success => {
+    if (success.status && success.status == 200 && success.data.status == 500) {
+        Message.error({message: success.data.msg})
+        return;
+    }
+    if (success.data.msg) {
+        if(success.data.code == 200){
+            Message.success({message: success.data.msg})
+        }else{
+            Message.warning({message: success.data.msg})
+        }
+    }
+    return success.data;
+}, error => {
+    if (error.response.status == 504 || error.response.status == 404) {
+        Message.error({message: '服务器被吃了( ╯□╰ )'})
+    } else if (error.response.status == 403) {
+        Message.error({message: '权限不足，请联系管理员'})
+    } else if (error.response.status == 401) {
+        Message.error({message: '尚未登录，请登录'})
+        router.replace('/');
+    } else {
+        if (error.response.data.msg) {
+            Message.error({message: error.response.data.msg})
+        } else {
+            Message.error({message: '未知错误!'})
+        }
+    }
+    return;
+})
+
+let base = '/api';
+
+export const postKeyValueRequest = (url, params) => {
+    return axios({
+        method: 'post',
+        url: `${base}${url}`,
+        data: params,
+        transformRequest: [function (data) {
+            let ret = '';
+            for (let i in data) {
+                ret += encodeURIComponent(i) + '=' + encodeURIComponent(data[i]) + '&'
+            }
+            return ret;
+        }],
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+    });
+}
+export const postRequest = (url, params) => {
+    return axios({
+        method: 'post',
+        url: `${base}${url}`,
+        data: params
+    })
+}
+export const putRequest = (url, params) => {
+    return axios({
+        method: 'put',
+        url: `${base}${url}`,
+        data: params
+    })
+}
+export const getRequest = (url, params) => {
+    // 处理参数转换
+    let apiUrl = `${base}${url}`;
+    let i = 0;
+    for (const key in params) {
+        if (params.hasOwnProperty(key)) {
+            const value = params[key];
+            const param = key+"="+value;
+            let s = '?';
+            if ( i>0 ){
+                s = '&';
+            }
+            apiUrl = apiUrl+s+param;
+            i++;
+        }
+    }
+    // 请求
+    return axios({
+        method: 'get',
+        url: apiUrl,
+        data: params
+    })
+}
+export const deleteRequest = (url, params) => {
+    // 处理参数转换
+    let apiUrl = `${base}${url}`;
+    let i = 0;
+    for (const key in params) {
+        if (params.hasOwnProperty(key)) {
+            const value = params[key];
+            const param = key+"="+value;
+            let s = '?';
+            if ( i>0 ){
+                s = '&';
+            }
+            apiUrl = apiUrl+s+param;
+            i++;
+        }
+    }
+    return axios({
+        method: 'delete',
+        url: apiUrl,
+        data: params
+    })
+}
