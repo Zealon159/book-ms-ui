@@ -1,7 +1,7 @@
 <template>
     <div>
         <!--工具栏-->
-        <el-form :inline="true" :model="formInline" size="mini" class="toolbar">
+        <el-form :inline="true" size="mini" class="toolbar">
             <el-form-item>
                 <el-button type="primary" @click="gotoAdd" >新增</el-button>
             </el-form-item>
@@ -54,7 +54,7 @@
     },
     methods:{
         handleEdit(id) {
-            this.$router.push('/org/dept-edit/'+id);
+            this.$router.push('/org/role-edit/'+id);
         },
         handleDelete(id) {
             this.$confirm('确定要删除吗?', '提示', {
@@ -62,7 +62,7 @@
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                this.deleteRequest('/system/org/dept/delete',{id:id}).then(resp => {
+                this.deleteRequest('/system/org/role/delete',{id:id}).then(resp => {
                     if (resp.code == 200) {
                         this.getListData();
                     }
@@ -76,7 +76,7 @@
             
         },
         getListData(){
-            this.getRequest('/system/org/dept/get-list', {page:this.currentPage,limit:this.limit}).then(resp => {
+            this.getRequest('/system/org/role/get-list', {page:this.currentPage,limit:this.limit}).then(resp => {
                 if (resp.code == 200) {
                     this.tableData = resp.data;
                     this.total = resp.total;
@@ -94,7 +94,7 @@
             this.getListData();
         },
         gotoAdd(){
-            this.$router.push("/org/dept-add");
+            this.$router.push("/org/role-add");
         }
     }
   };

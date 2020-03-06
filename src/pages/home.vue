@@ -19,21 +19,14 @@
       <el-container>
           <el-aside width="200px">
               <el-menu router :collapse="isCollapse" >
-                  <el-submenu index="1">
+                  <el-submenu v-for="(item,index) in menus" :index="index+''" :key="index">
                     <template slot="title">
-                      <i class="el-icon-notebook-2"></i>
-                      <span>图书管理</span>
+                      <i :class="item.icon"></i>
+                      <span><b>{{item.name}}</b></span>
                     </template>
-                    <el-menu-item index="1-1">图书管理</el-menu-item>
-                    <el-menu-item index="1-2">章节管理</el-menu-item>
-                  </el-submenu>
-                  <el-submenu index="2">
-                    <template slot="title">
-                      <i class="el-icon-s-tools"></i>
-                      <span>后台管理</span>
-                    </template>
-                    <el-menu-item index="user-list">用户管理</el-menu-item>
-                    <el-menu-item index="2-2">部门管理</el-menu-item>
+                    <el-menu-item :index="subItem.path" v-for="(subItem,indexj) in item.children" :key="indexj">
+                        <i :class="subItem.icon"></i>{{subItem.name}}
+                    </el-menu-item>
                   </el-submenu>
               </el-menu>
           </el-aside>
@@ -59,43 +52,56 @@
 </template>
 
 <script>
-  export default {
-    data() {
-        return {
-            user: JSON.parse(window.sessionStorage.getItem("user")),
-            head: 'https://vuejs.bootcss.com/images/logo.png',
-            isCollapse: false
-        }
-    },
-    computed: {
-        /*routes() {
-            return this.$store.state.routes;
-        }*/
-    },
-    methods:{
-        commandHandler(cmd) {
-          // 退出登录
-          if (cmd == 'logout') {
-            this.$confirm('此操作将注销登录, 是否继续?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }).then(() => {
-                this.getRequest("/logout");
-                window.sessionStorage.removeItem("user")
-                this.$router.replace("/");
-            }).catch(() => {
-                this.$message({
-                    type: 'info',
-                    message: '已取消操作'
-                });
-            });
-          } else if (cmd == 'userinfo'){
-              this.$router.push("user");
-          }
+    export default {
+        data() {
+            return {
+                menus: [],
+                user: JSON.parse(window.sessionStorage.getItem("user")),
+                head: 'https://vuejs.bootcss.com/images/logo.png',
+                isCollapse: false
+            }
+        },
+        created() {
+            this.getUserMenu();
+        },
+        computed: {
+            /*routes() {
+                return this.$store.state.routes;
+            }*/
+        },
+        methods:{
+            commandHandler(cmd) {
+                // 退出登录
+                if (cmd == 'logout') {
+                    this.$confirm('此操作将注销登录, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        this.getRequest("/logout");
+                        window.sessionStorage.removeItem("user")
+                        this.$router.replace("/");
+                    }).catch(() => {
+                        this.$message({
+                            type: 'info',
+                            message: '已取消操作'
+                        });
+                    });
+                } else if (cmd == 'userinfo'){
+                    this.$router.push("user");
+                }
+            },
+            getUserMenu() {
+                // 获取用户菜单
+                let uid = this.user.userId;
+                this.getRequest('/system/org/permission/get-user-menus', {userId:uid}).then(resp => {
+                    if (resp.code == 200) {
+                    this.menus = resp.data;
+                    }
+                })
+            }
         }
     }
-  }
 </script>
 
 <style>

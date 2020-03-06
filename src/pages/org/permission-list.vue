@@ -1,13 +1,18 @@
 <template>
     <div>
         <!--工具栏-->
-        <el-form :inline="true" :model="formInline" size="mini" class="toolbar">
+        <el-form :inline="true" size="mini" class="toolbar">
             <el-form-item>
                 <el-button type="primary" @click="gotoAdd" >新增</el-button>
             </el-form-item>
         </el-form>
         <!--表格区-->
-        <el-table :data="tableData" border style="width: 100%;" size="small">
+        <el-table :data="tableData" border style="width: 100%;" 
+            row-key="id"
+            lazy
+            :load="loadSubListData"
+            :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
+            size="small">
             <template slot="empty">
                 还没有数据呢~ (⊙︿⊙)
             </template>
@@ -24,18 +29,6 @@
             </template>
             </el-table-column>
         </el-table>
-        <!--分页区-->
-        <div class="Pagination" style="text-align: left;margin-top: 10px;">
-            <el-pagination
-                background
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page="currentPage"
-                :page-size="limit"
-                layout="total, prev, pager, next"
-                :total="total">
-            </el-pagination>
-        </div>
     </div>
 </template>
 
@@ -43,10 +36,7 @@
   export default {
     data() {
         return {
-            tableData: [],
-            limit: 10,
-            total: 0,
-            currentPage: 1
+            tableData: []
         }
     },
     created(){
@@ -54,7 +44,7 @@
     },
     methods:{
         handleEdit(id) {
-            this.$router.push('/org/dept-edit/'+id);
+            this.$router.push('/org/permission-edit/'+id);
         },
         handleDelete(id) {
             this.$confirm('确定要删除吗?', '提示', {
@@ -62,7 +52,7 @@
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                this.deleteRequest('/system/org/dept/delete',{id:id}).then(resp => {
+                this.deleteRequest('/system/org/permission/delete',{id:id}).then(resp => {
                     if (resp.code == 200) {
                         this.getListData();
                     }
@@ -76,25 +66,22 @@
             
         },
         getListData(){
-            this.getRequest('/system/org/dept/get-list', {page:this.currentPage,limit:this.limit}).then(resp => {
+            this.getRequest('/system/org/permission/get-list', {parentId:0}).then(resp => {
                 if (resp.code == 200) {
                     this.tableData = resp.data;
-                    this.total = resp.total;
                 }
             })
         },
-        handleSizeChange(val) {
-            console.log(`每页 ${val} 条`);
-        },
-        handleCurrentChange(val) {
-            this.currentPage = val;
-            this.getListData();
-        },
-        onSearch(){
-            this.getListData();
+        // 加载子节点
+        loadSubListData(tree, treeNode, resolve){
+            this.getRequest('/system/org/permission/get-list', {parentId:tree.id}).then(resp => {
+                if (resp.code == 200) {
+                    resolve(resp.data);
+                }
+            })
         },
         gotoAdd(){
-            this.$router.push("/org/dept-add");
+            this.$router.push("/org/permission-add");
         }
     }
   };

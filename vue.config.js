@@ -2,7 +2,7 @@
 module.exports = {
     // 选项...
     devServer: {
-        port: 9001,
+        port: 9000,
         proxy: {
             //跨域设置
             "/api": {

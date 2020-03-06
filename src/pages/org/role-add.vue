@@ -2,11 +2,24 @@
     <div class="defaultForm">
         <el-form :model="dataForm" :rules="rules" ref="dataForm" size="small"
             label-width="135px" >
-            <el-form-item label="组织名称" prop="name">
+            <el-form-item label="角色名称" prop="name">
                 <el-input v-model="dataForm.name"></el-input>
+            </el-form-item>
+            <el-form-item label="描述" prop="description">
+                <el-input v-model="dataForm.description"></el-input>
             </el-form-item>
             <el-form-item label="排序" prop="sortNumber">
                 <el-input v-model.number="dataForm.sortNumber" prefix-icon="fa fa-sort-numeric-asc"></el-input>
+            </el-form-item>
+            <el-form-item label="菜单权限" prop="permissions">
+                <el-tree
+                  v-model="dataForm.permissions"
+                  :data="treeData"
+                  node-key="id"
+                  ref="tree"
+                  :props="props"
+                  show-checkbox>
+                </el-tree>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="submitForm('dataForm')">立即创建</el-button>
@@ -20,9 +33,17 @@
   export default {
     data() {
       return {
+        treeData:[],
         dataForm: {
+          permissions:'',
           name: '',
+          description:'',
           sortNumber: ''
+        },
+        props: {
+          value: 'id',
+          label: 'label',
+          children: 'children'
         },
         rules: {
           name: [
@@ -36,13 +57,17 @@
         }
       };
     },
+    created() {
+      this.initTreeData();
+    },
     methods: {
       submitForm(dataForm) {
+        this.dataForm.permissions = this.$refs.tree.getCheckedKeys();
         this.$refs[dataForm].validate((valid) => {
           if (valid) {
-            this.postRequest('/system/org/dept/create', this.dataForm).then(resp => {
+            this.postRequest('/system/org/role/create', this.dataForm).then(resp => {
                 if (resp && resp.code==200) {
-                    this.$router.push('/org/dept-list');
+                    this.$router.push('/org/role-list');
                 }
             })
           } else {
@@ -53,6 +78,14 @@
       },
       resetForm(dataForm) {
         this.$refs[dataForm].resetFields();
+      },
+      initTreeData(){
+          // 菜单数据源
+          this.getRequest('/system/org/permission/get-tree-options', {}).then(resp => {
+            if (resp.code == 200) {
+              this.treeData = resp.data;
+            }
+          })
       }
     }
   }

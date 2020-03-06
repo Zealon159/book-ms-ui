@@ -69,21 +69,8 @@ export const putRequest = (url, params) => {
     })
 }
 export const getRequest = (url, params) => {
-    // 处理参数转换
     let apiUrl = `${base}${url}`;
-    let i = 0;
-    for (const key in params) {
-        if (params.hasOwnProperty(key)) {
-            const value = params[key];
-            const param = key+"="+value;
-            let s = '?';
-            if ( i>0 ){
-                s = '&';
-            }
-            apiUrl = apiUrl+s+param;
-            i++;
-        }
-    }
+    apiUrl = getApiUrl(apiUrl,params);
     // 请求
     return axios({
         method: 'get',
@@ -92,24 +79,30 @@ export const getRequest = (url, params) => {
     })
 }
 export const deleteRequest = (url, params) => {
-    // 处理参数转换
     let apiUrl = `${base}${url}`;
+    apiUrl = getApiUrl(apiUrl,params);
+    return axios({
+        method: 'delete',
+        url: apiUrl,
+        data: params
+    })
+}
+
+// 处理参数转换
+function getApiUrl(url,params){
+    let apiUrl = url;
     let i = 0;
     for (const key in params) {
         if (params.hasOwnProperty(key)) {
             const value = params[key];
             const param = key+"="+value;
             let s = '?';
-            if ( i>0 ){
+            if ( i > 0 ){
                 s = '&';
             }
             apiUrl = apiUrl+s+param;
             i++;
         }
     }
-    return axios({
-        method: 'delete',
-        url: apiUrl,
-        data: params
-    })
+    return apiUrl;
 }
