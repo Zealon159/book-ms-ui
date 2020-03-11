@@ -3,7 +3,8 @@
       <el-header class="homeHeader">
           <div class="title">创新版管理平台</div>
           <div>
-              <el-button icon="el-icon-bell" type="text" style="margin-right: 8px;color: #000000;" size="normal" ></el-button>
+              <el-button :icon="collapseClass" type="text" @click="collapseHandler" style="color: #000000; font-size:16px"></el-button>
+              <el-button icon="el-icon-bell" type="text" style="margin-right: 20px;color: #000000; font-size:16px"></el-button>
               <el-dropdown class="userInfo" @command="commandHandler">
               <span class="el-dropdown-link">
                 Hi，{{user.userName}}<i><img :src="head" class="head" alt=""></i>
@@ -17,7 +18,7 @@
           </div>
       </el-header>
       <el-container>
-          <el-aside width="200px">
+          <el-aside :style="leftMenuStyle">
               <el-menu router :collapse="isCollapse" >
                   <el-submenu v-for="(item,index) in menus" :index="index+''" :key="index">
                     <template slot="title">
@@ -56,7 +57,7 @@
         data() {
             return {
                 menus: [],
-                user: JSON.parse(window.sessionStorage.getItem("user")),
+                user: this.db.get("USER"),
                 head: 'https://vuejs.bootcss.com/images/logo.png',
                 isCollapse: false
             }
@@ -65,9 +66,20 @@
             this.getUserMenu();
         },
         computed: {
-            /*routes() {
-                return this.$store.state.routes;
-            }*/
+            leftMenuStyle:function(){
+                if(!this.isCollapse){
+                    return 'width:200px';
+                }else{
+                    return 'width:65px';
+                }
+            },
+            collapseClass:function(){
+                if(!this.isCollapse){
+                    return 'el-icon-s-unfold';
+                }else{
+                    return 'el-icon-s-fold';
+                }
+            }
         },
         methods:{
             commandHandler(cmd) {
@@ -79,7 +91,8 @@
                         type: 'warning'
                     }).then(() => {
                         this.getRequest("/logout");
-                        window.sessionStorage.removeItem("user")
+                        this.db.remove("USER")
+                        this.db.remove("USER_ROUTER")
                         this.$router.replace("/");
                     }).catch(() => {
                         this.$message({
@@ -89,6 +102,14 @@
                     });
                 } else if (cmd == 'userinfo'){
                     this.$router.push("user");
+                }
+            },
+            collapseHandler(){
+                // 折叠菜单处理
+                if(this.isCollapse){
+                    this.isCollapse = false;
+                }else{
+                    this.isCollapse = true;
                 }
             },
             getUserMenu() {

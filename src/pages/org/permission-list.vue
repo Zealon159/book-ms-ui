@@ -17,8 +17,14 @@
                 还没有数据呢~ (⊙︿⊙)
             </template>
             <el-table-column prop="name" label="名称"  >
+                <template slot-scope="scope" >
+                    {{scope.row.name}}
+                    <i :class="scope.row.icon"></i>
+                </template>
             </el-table-column>
-            <el-table-column prop="sortNumber" label="排序" width="140">
+            <el-table-column prop="resourceUrl" label="URL" width="180">
+            </el-table-column>
+            <el-table-column prop="sortNumber" label="排序" width="90">
             </el-table-column>
             <el-table-column align="center" label="操作" width="180">
             <template slot-scope="scope" >

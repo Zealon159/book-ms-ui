@@ -1,7 +1,7 @@
 <template>
     <div>
         <!--工具栏-->
-        <el-form :inline="true" :model="formInline" size="mini" class="toolbar">
+        <el-form :inline="true" size="mini" class="toolbar">
             <el-form-item>
                 <el-button type="primary" @click="gotoAdd" >新增</el-button>
             </el-form-item>

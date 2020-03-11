@@ -27,7 +27,7 @@
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="submitForm('userForm')">确认</el-button>
-                <el-button @click="resetForm('userForm')">返回</el-button>
+                <el-button @click="$router.back(-1)">返回</el-button>
             </el-form-item>
         </el-form>
     </div>

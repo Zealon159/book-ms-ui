@@ -48,7 +48,7 @@
                             this.loading = false;
                             if (resp.success) {
                                 //this.$store.commit('INIT_CURRENTHR', resp.obj);
-                                window.sessionStorage.setItem("user", JSON.stringify(resp.user));
+                                this.db.save("USER", resp.user);
                                 let path = this.$route.query.redirect;
                                 this.$router.replace((path == '/' || path == undefined) ? '/home' : path);
                             }

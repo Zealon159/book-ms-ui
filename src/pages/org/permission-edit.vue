@@ -19,8 +19,11 @@
             <el-form-item label="权限" prop="permission">
                 <el-input v-model="dataForm.permission" prefix-icon="el-icon-unlock"></el-input>
             </el-form-item>
-            <el-form-item label="菜单地址" prop="resourceUrl">
+            <el-form-item label="映射地址" prop="resourceUrl">
                 <el-input v-model="dataForm.resourceUrl"></el-input>
+            </el-form-item>
+            <el-form-item label="Vue组件路径" prop="pagePath">
+                <el-input v-model="dataForm.pagePath"></el-input>
             </el-form-item>
             <el-form-item label="图标" prop="icon">
                 <icon-picker v-model="dataForm.icon"></icon-picker>
@@ -30,7 +33,7 @@
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="submitForm('dataForm')">确认</el-button>
-                <el-button @click="resetForm('dataForm')">重置</el-button>
+                <el-button @click="$router.back(-1)">返回</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -47,6 +50,7 @@
                     name: '',
                     permission: '',
                     resourceUrl:'',
+                    pagePath:'',
                     icon: '',
                     sortNumber: ''
                 },
