@@ -7,6 +7,8 @@ Vue.use(Router)
 // 静态路由
 const login = r => require.ensure([], () => r(require('@/pages/login')), 'login');
 const home = r => require.ensure([], () => r(require('@/pages/home')), 'home');
+const userinfo = r => require.ensure([], () => r(require('@/pages/user/info')), 'userinfo');
+const pwd = r => require.ensure([], () => r(require('@/pages/user/password')), 'pwd');
 const constRouter = [
 	{
 		path: '/',
@@ -23,7 +25,26 @@ const dynamicRouter = [
 		name: '主页',
 		component: home,
 		hidden: true,
-		children:[]
+		children:[
+			{
+				path: '/userinfo',
+				name: '个人中心',
+				component: userinfo,
+				hidden: false ,
+				meta:[
+					{"name":"个人中心","path":""}
+				]
+			},
+			{
+				path: '/pwd',
+				name: '修改密码',
+				component: pwd,
+				hidden: false ,
+				meta:[
+					{"name":"个人中心","path":"/userinfo"},{"name":"修改密码","path":""}
+				]
+			}
+		]
 	}
 ]
 

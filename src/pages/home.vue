@@ -11,7 +11,7 @@
               </span>
                   <el-dropdown-menu slot="dropdown">
                       <el-dropdown-item command="userinfo">个人中心</el-dropdown-item>
-                      <el-dropdown-item command="setting">设置</el-dropdown-item>
+                      <el-dropdown-item command="pwd">修改密码</el-dropdown-item>
                       <el-dropdown-item command="logout" divided>注销登录</el-dropdown-item>
                   </el-dropdown-menu>
               </el-dropdown>
@@ -34,17 +34,40 @@
           <el-main style="padding:0px;">
               <!--主区-->
               <el-container>
-                  <el-header style="height:45px; line-height: 45px; background:#eaf7ff; padding: 15px">
-                    <el-breadcrumb separator="/" v-if="this.$router.currentRoute.path!='/home'">
-                        <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+                <el-header class="main-header" style="height:45px; ">
+                    <el-breadcrumb separator="/" >
+                        <el-breadcrumb-item :to="{ path: '/home' }">Dashboard</el-breadcrumb-item>
                         <el-breadcrumb-item v-for="(item, index) in $route.meta" :key="index" :to="item.path">{{item.name}}</el-breadcrumb-item>
                     </el-breadcrumb>
-                  </el-header>
-                  <el-main style="padding:10px">
-                    <div class="homeWelcome" v-if="this.$router.currentRoute.path=='/home'">
-                        欢迎使用 ~ 
-                    </div>
-                    <router-view class="homeRouterView"></router-view>
+                </el-header>
+                  <el-main style="padding:10px;">
+                      <template v-if="this.$router.currentRoute.path=='/home'">
+                        <div style="padding:10px">
+                            <el-row :gutter="20">
+                                <el-col :span="12">
+                                    <el-card class="box-card" shadow="hover">
+                                        <div class="text item">
+                                            列表内容 
+                                        </div>
+                                        <div class="text item">
+                                            列表内容 2
+                                        </div>
+                                    </el-card>
+                                </el-col>
+                                <el-col :span="12">
+                                    <el-card class="box-card" shadow="hover">
+                                        <div class="text item">
+                                            列表内容 
+                                        </div>
+                                        <div class="text item">
+                                            列表内容 2
+                                        </div>
+                                    </el-card>
+                                </el-col>
+                            </el-row>
+                        </div>
+                      </template>
+                      <router-view class="homeRouterView"></router-view>
                   </el-main>
               </el-container>
           </el-main>
@@ -101,7 +124,9 @@
                         });
                     });
                 } else if (cmd == 'userinfo'){
-                    this.$router.push("user");
+                    this.$router.push("../userinfo");
+                } else if (cmd == 'pwd'){
+                    this.$router.push("../pwd");
                 }
             },
             collapseHandler(){
@@ -128,16 +153,16 @@
 <style>
     body {margin: 0px}
 
+    .el-main{ width: 100}
+
     .homeRouterView {
-        margin-top: 0px;
+        margin-top: 0px; width:100%; 
     }
 
     .homeWelcome {
         text-align: center;
-        font-size: 30px;
         font-family: 华文行楷;
         color: #409eff;
-        padding-top: 50px;
     }
 
     .homeHeader {
@@ -171,5 +196,20 @@
         color: rgb(32, 25, 25);
         display: flex;
         align-items: center;
+    }
+
+    .main-header{
+        line-height: 45px; 
+        background:#eaf7ff; 
+        padding: 15px; 
+        width:100%
+    }
+
+    .text {
+        font-size: 14px;
+    }
+
+    .item {
+        padding: 5px 0;
     }
 </style>
