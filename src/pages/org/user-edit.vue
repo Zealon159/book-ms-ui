@@ -2,17 +2,17 @@
     <div class="defaultForm">
         <el-form :model="userForm" :rules="rules" ref="userForm" size="small"
             label-width="135px" class="demo-userForm">
-            <el-form-item label="登录名" prop="userId">
-                <span>{{userForm.userId}}</span>
-            </el-form-item>
-            <el-form-item label="名称" prop="userName">
-                <el-input v-model="userForm.userName"></el-input>
-            </el-form-item>
             <el-form-item label="部门" prop="deptId">
                 <el-select v-model="userForm.deptId" placeholder="请选择部门">
                   <el-option v-for="item in deptOptions" :key="item.id" :label="item.text" :value="item.id">
                   </el-option>
                 </el-select>
+            </el-form-item>
+            <el-form-item label="登录名" prop="userId">
+                <span>{{userForm.userId}}</span>
+            </el-form-item>
+            <el-form-item label="名称" prop="userName">
+                <el-input v-model="userForm.userName"></el-input>
             </el-form-item>
             <el-form-item label="角色" prop="roles">
               <el-checkbox-group v-model="userForm.roles">

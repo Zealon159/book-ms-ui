@@ -62,13 +62,13 @@
         methods: {
             submitForm(userForm) {
                 this.$refs[userForm].validate((valid) => {
-                if (valid) {
-                    this.putRequest('/user/update-pwd', this.userForm).then(resp => {
-                    })
-                } else {
-                    console.log('error submit!!');
-                    return false;
-                }
+                    if (valid) {
+                        this.putRequest('/user/update-pwd', this.userForm).then(resp => {
+                        })
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
                 });
             }
         }

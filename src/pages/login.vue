@@ -39,6 +39,9 @@
                 }
             }
         },
+        created(){
+            this.db.save("LOGINFLAG","0")
+        },
         methods:{
             submitForm(loginForm) {
                 this.$refs[loginForm].validate((valid) => {

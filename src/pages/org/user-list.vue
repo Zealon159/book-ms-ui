@@ -92,8 +92,8 @@
             total: 0,
             currentPage: 1,
             formInline: {
-            keyword: '',
-            deptId: ''
+                keyword: '',
+                deptId: ''
             }
         }
     },

@@ -1,9 +1,10 @@
 import axios from 'axios'
 import {Message} from 'element-ui';
 import router from '../router'
+import db from '../utils/sessionStorage'
+import * as config from '../utils/config'
 
 //axios.defaults.withCredentials = true;
-
 axios.interceptors.response.use(success => {
     if (success.status && success.status == 200 && success.data.status == 500) {
         Message.error({message: success.data.msg})
@@ -23,7 +24,12 @@ axios.interceptors.response.use(success => {
     } else if (error.response.status == 403) {
         Message.error({message: '权限不足，请联系管理员'})
     } else if (error.response.status == 401) {
-        Message.error({message: '尚未登录，请登录'})
+        // 防止重复弹出消息
+        if(db.get("LOGINFLAG") == "0"){
+            Message.error({message: '尚未登录或登录状态已过期，请登录'})
+            db.remove("LOGINFLAG")
+            db.save("LOGINFLAG","1")
+        }
         router.replace('/');
     } else {
         if (error.response.data.msg) {
@@ -35,7 +41,7 @@ axios.interceptors.response.use(success => {
     return;
 })
 
-let base = '/api';
+let base = config.baseApi;
 
 export const postKeyValueRequest = (url, params) => {
     return axios({

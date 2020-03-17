@@ -10,13 +10,14 @@ import {deleteRequest} from "./utils/request"
 import {getRequest} from "./utils/request"
 import router from "./router"
 import db from "./utils/sessionStorage"
+import * as config from "./utils/config"
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(iconPicker)
 
 Vue.prototype.db = db
-
+Vue.prototype.config = config
 Vue.prototype.postRequest = postRequest;
 Vue.prototype.postKeyValueRequest = postKeyValueRequest;
 Vue.prototype.putRequest = putRequest;

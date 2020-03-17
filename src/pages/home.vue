@@ -87,6 +87,7 @@
         },
         created() {
             this.getUserMenu();
+            this.head = this.config.baseApi + this.db.get("USER").headImgUrl;
         },
         computed: {
             leftMenuStyle:function(){
@@ -141,8 +142,8 @@
                 // 获取用户菜单
                 let uid = this.user.userId;
                 this.getRequest('/system/org/permission/get-user-menus', {userId:uid}).then(resp => {
-                    if (resp.code == 200) {
-                    this.menus = resp.data;
+                    if (resp.code && resp.code == 200) {
+                        this.menus = resp.data;
                     }
                 })
             }
@@ -200,7 +201,7 @@
 
     .main-header{
         line-height: 45px; 
-        background:#eaf7ff; 
+        background:#e4f5ff; 
         padding: 15px; 
         width:100%
     }
