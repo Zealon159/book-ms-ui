@@ -3,7 +3,7 @@
         <!--工具栏-->
         <el-form :inline="true" :model="formInline" size="mini" class="toolbar">
             <el-form-item label="关键字" >
-                <el-input v-model="formInline.keyword" placeholder="书籍名称"></el-input>
+                <el-input v-model="formInline.keyword" placeholder="书籍名称/BookID"></el-input>
             </el-form-item>
            <el-form-item label="分类" prop="dicCategory">
                 <el-select v-model="formInline.dicCategory" clearable placeholder="请选择" style="width:120px">
@@ -27,12 +27,12 @@
             <template slot="empty">
                 还没有数据呢~ (⊙︿⊙)
             </template>
-            <el-table-column label="封面" width="90" align="center">
+            <el-table-column label="封面" width="74" align="center">
                 <template slot-scope="scope" >
-                    <el-avatar shape="square" :size="50" :src="handleImg(scope.row.imgUrl)"></el-avatar>
+                    <el-image style="height: 66px" :src="handleImg(scope.row.imgUrl)" fit="fill"></el-image>
                 </template>
             </el-table-column>
-            <el-table-column prop="bookId" label="图书ID"  width="100">
+            <el-table-column prop="bookId" label="图书ID" width="100">
             </el-table-column>
             <el-table-column prop="bookName" label="图书名称" >
             </el-table-column>
@@ -40,8 +40,10 @@
             </el-table-column>
             <el-table-column prop="keyWord" label="标签" >
             </el-table-column>
-            <el-table-column align="center" label="操作" width="180">
+            <el-table-column align="center" label="操作" width="240">
             <template slot-scope="scope" >
+                <el-button size="mini" type="success" plain 
+                @click="handleChapter(scope.row.id)">章节</el-button>
                 <el-button size="mini" type="primary" plain 
                 @click="handleEdit(scope.row.id)">编辑</el-button>
                 <el-button size="mini" type="danger"  plain 
@@ -87,15 +89,16 @@
         this.getDictionaryOptions("channel");
     },
     methods:{
-        // 处理头像显示
+        // 处理封面图显示
         handleImg(url) {
             let fullUrl = "";
             if(url){
                 fullUrl = this.config.baseApi + url;
-            } else {
-                fullUrl = "";
             }
             return fullUrl;
+        },
+        handleChapter(id){
+            this.$router.push('/book/chapter-list/'+id);
         },
         handleEdit(id) {
             this.$router.push('/book/book-edit/'+id);

@@ -11,14 +11,14 @@
             <template slot="empty">
                 还没有数据呢~ (⊙︿⊙)
             </template>
-            <el-table-column label="头像" width="90" align="center">
-                <template slot-scope="scope" >
-                    <el-avatar shape="square" :size="50" :src="handleHead(scope.row.headImgUrl)"></el-avatar>
+            <el-table-column prop="sortNumber" label="章序" width="90" align="center">
+            </el-table-column>
+            <el-table-column prop="name" label="章节名称"  >
+            </el-table-column>
+            <el-table-column label="锁章状态" width="90" align="center">
+                <template  slot-scope="scope" >
+                    <i :class="handleStatus(scope.row.lockStatus)"></i>
                 </template>
-            </el-table-column>
-            <el-table-column prop="name" label="作者名称" width="180" >
-            </el-table-column>
-            <el-table-column prop="introduction" label="简介">
             </el-table-column>
             <el-table-column align="center" label="操作" width="240">
             <template slot-scope="scope" >
@@ -50,6 +50,7 @@
   export default {
     data() {
         return {
+            bookId:'',
             tableData: [],
             limit: 10,
             total: 0,
@@ -58,23 +59,22 @@
     },
     created(){
         this.getListData();
+        // 图书ID
+        this.bookId = this.$route.params.bookId;
     },
     methods:{
-        // 处理头像显示
-        handleHead(url) {
-            let fullUrl = "";
-            if(url){
-                fullUrl = this.config.baseApi + url;
-            } else {
-                fullUrl = "";
+        handleStatus(val){
+            let icon = "el-icon-unlock";
+            if(val){
+                icon = "el-icon-lock";
             }
-            return fullUrl;
+            return icon;
         },
         handleDetails(id){
-            this.$router.push('/book/author-details/'+id);
+            this.$router.push('/book/chapter-details/'+id);
         },
         handleEdit(id) {
-            this.$router.push('/book/author-edit/'+id);
+            this.$router.push('/book/chapter-edit/'+id);
         },
         handleDelete(id) {
             this.$confirm('确定要删除吗?', '提示', {
@@ -82,7 +82,7 @@
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                this.deleteRequest('/book-author/delete',{id:id}).then(resp => {
+                this.deleteRequest('/book-chapter/delete',{id:id}).then(resp => {
                     if (resp.code == 200) {
                         this.getListData();
                     }
@@ -96,7 +96,7 @@
             
         },
         getListData(){
-            this.getRequest('/book-author/get-list', {page:this.currentPage,limit:this.limit}).then(resp => {
+            this.getRequest('/book-chapter/get-list', {page:this.currentPage,limit:this.limit,bookId:this.$route.params.bookId}).then(resp => {
                 if (resp.code == 200) {
                     this.tableData = resp.data;
                     this.total = resp.total;
@@ -114,7 +114,7 @@
             this.getListData();
         },
         gotoAdd(){
-            this.$router.push("/book/author-add");
+            this.$router.push("/book/chapter-add/"+this.bookId);
         }
     }
   };
