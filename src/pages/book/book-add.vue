@@ -219,16 +219,16 @@
             beforeAvatarUpload(file) {
                 const isJPG = file.type === 'image/jpeg';
                 const isPNG = file.type === 'image/png';
-                const isLt100K = file.size / 1024 / 100 < 1;
+                const isLt200K = file.size / 1024 / 200 < 1;
 
                 if (!isJPG && !isPNG) {
-                    this.$message.error('上传头像图片只能是 JPG/PNG 格式!');
+                    this.$message.error('上传图片只能是 JPG/PNG 格式!');
                 }
                 
-                if (!isLt100K) {
-                    this.$message.error('上传头像图片大小不能超过 100KB!');
+                if (!isLt200K) {
+                    this.$message.error('上传图片大小不能超过 200KB!');
                 }
-                return isJPG && isLt100K;
+                return isJPG && isLt200K;
             },
             upload(item){
                 let formData = new FormData()
