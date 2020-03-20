@@ -1,7 +1,7 @@
 <template>
     <el-container>
       <el-header class="homeHeader">
-          <div class="title">创新版管理平台</div>
+          <div class="title">微图书管理平台</div>
           <div>
               <el-button :icon="collapseClass" type="text" @click="collapseHandler" style="color: #000000; font-size:16px"></el-button>
               <el-button icon="el-icon-bell" type="text" style="margin-right: 20px;color: #000000; font-size:16px"></el-button>
@@ -51,7 +51,9 @@
                                             <div class="img"><img width="90" :src="handleImg(book.imgUrl)" ></div>
                                             <div class="content">
                                                 <div style="height:30px">
-                                                    <div class="title">{{book.bookName}}</div>
+                                                    <div class="title">
+                                                        <el-link type="text" @click="gotoBookDetails(book.id)">{{book.bookName}}</el-link>
+                                                    </div>
                                                     <div class="category">
                                                         <el-tag type="success" size="mini">{{book.dicCategoryName}}</el-tag>
                                                     </div>
@@ -170,6 +172,9 @@
             },
             gotoAuthorDetails(id){
                 this.$router.push("../book/author-details/"+id);
+            },
+            gotoBookDetails(id){
+                this.$router.push("../book/book-details/"+id);
             },
             getUserMenu() {
                 // 获取用户菜单

@@ -1,6 +1,8 @@
 // vue.config.js
 module.exports = {
-    // 选项...
+    build:{
+        assetPublicPath: './'
+    },
     devServer: {
         port: 9000,
         proxy: {

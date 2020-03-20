@@ -5,6 +5,9 @@
                 <img :src="imageUrl" class="avatar">
                 <div style="margin-top:15px">{{dataForm.name}}</div>
                 <div style="margin-top:15px">{{dataForm.introduction}}</div>
+                <div style="margin-top:35px">
+                    <el-button @click="$router.back(-1)" size="mini">返回</el-button>
+                </div>
             </el-tab-pane>
             <el-tab-pane label="作品列表" name="book">
                 <div class="book-item" v-for="book in books" :key="book.id">
@@ -20,7 +23,7 @@
                             {{book.introduction}}
                         </div>
                         <div class="author">
-                            <el-button type="text" class="button">查看</el-button>
+                            <el-button type="text" class="button" @click="gotoBookDetails(book.id)">查看</el-button>
                         </div>
                     </div>
                 </div>
@@ -49,6 +52,9 @@
             this.initData();
         },
         methods: {
+            gotoBookDetails(id){
+                this.$router.push("/book/book-details/"+id);
+            },
             handleImg(url) {
                 let fullUrl = "";
                 if(url){

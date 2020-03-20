@@ -71,7 +71,7 @@
             return icon;
         },
         handleDetails(id){
-            this.$router.push('/book/chapter-details/'+id);
+            this.$router.push("/book/book-read/"+id);
         },
         handleEdit(id) {
             this.$router.push('/book/chapter-edit/'+id);
