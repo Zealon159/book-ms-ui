@@ -61,13 +61,13 @@ router.beforeEach((to, from, next) => {
 	if(user && user.userId){
 		if (!asyncRouter || asyncRouter=='') {
 			if (!userRouter || userRouter=='' || userRouter==null) {
-				getRequest('/system/org/permission/get-user-router', {userId:user.userId}).then(resp => {
+				getRequest('/system/org/permission/get-user-router', {}).then(resp => {
 					if (resp.code == 200) {
 						asyncRouter = resp.data
 						if(resp.data.length>0){
 							db.save('USER_ROUTER', resp.data)
+							loadAsyncRouter(to, next)
 						}
-						loadAsyncRouter(to, next)
 					}
 				})
 			} else {

@@ -69,7 +69,7 @@
                 if(user && user.userId){
                     this.userForm = user;
                     this.userForm.attachmentIds = [];
-                    this.imageUrl = this.config.baseApi + user.headImgUrl;
+                    this.imageUrl = this.config.baseApi + "/" + user.headImgUrl;
                 }else{
                     // 接口获取个人信息
                     this.getRequest('/user-info',{}).then(resp => {
@@ -131,7 +131,7 @@
                         let attachment = resp.data.attachments[0];
                         this.userForm.attachmentIds[0] = attachment.id;
                         this.userForm.headImgUrl = attachment.path;
-                        this.imageUrl = this.config.baseApi + attachment.path;
+                        this.imageUrl = this.config.baseApi + "/" + attachment.path;
                     }
                 })
             }

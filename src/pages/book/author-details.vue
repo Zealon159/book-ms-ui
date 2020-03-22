@@ -62,7 +62,7 @@
                     if (resp.code == 200) {
                         this.dataForm = resp.data;
                         this.dataForm.attachmentIds = [];
-                        this.imageUrl = this.config.baseApi + resp.data.headImgUrl;
+                        this.imageUrl = this.config.baseApi + "/" + resp.data.headImgUrl;
                     }
                 })
 

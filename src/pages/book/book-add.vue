@@ -241,6 +241,9 @@
                         this.dataForm.attachmentIds[0] = attachment.id;
                         this.dataForm.imgUrl = attachment.path;
                         this.imageUrl = this.config.baseApi + "/" + attachment.path;
+                        if (success.data.msg) {
+                            Message.success({message: success.data.msg})
+                        }
                     }
                 })
             }
