@@ -1,12 +1,14 @@
 // vue.config.js
 module.exports = {
+    publicPath: './',
     devServer: {
         port: 9000,
         proxy: {
-            //跨域设置
             "/api": {
-                target: 'http://localhost:8002',    //请求源地址
-                changeOrigin: true,  //是否跨域
+                //请求源地址
+                target: 'http://localhost:8002',    
+                //是否跨域
+                changeOrigin: true,  
                 ws: true,
                 pathRewrite: {
                     '^/api': ''

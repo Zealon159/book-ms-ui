@@ -91,7 +91,7 @@
                         let attachment = resp.data.attachments[0];
                         this.dataForm.attachmentIds[0] = attachment.id;
                         this.dataForm.headImgUrl = attachment.path;
-                        this.imageUrl = this.config.baseApi + attachment.path;
+                        this.imageUrl = this.config.baseApi + "/" + attachment.path;
                     }
                 })
             }

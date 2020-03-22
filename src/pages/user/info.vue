@@ -76,7 +76,7 @@
                         if (resp.code == 200) {
                             this.userForm = resp.data;
                             this.userForm.attachmentIds = [];
-                            this.imageUrl = this.config.baseApi + resp.data.headImgUrl;
+                            this.imageUrl = this.config.baseApi + "/" + resp.data.headImgUrl;
                         }
                     })
                 }

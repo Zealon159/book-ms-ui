@@ -13,7 +13,7 @@
             </template>
             <el-table-column label="头像" width="90" align="center">
                 <template slot-scope="scope" >
-                    <el-avatar shape="square" :size="50" :src="handleHead(scope.row.headImgUrl)"></el-avatar>
+                    <el-avatar shape="square" :size="50" :src="config.handleImgUri(scope.row.headImgUrl)"></el-avatar>
                 </template>
             </el-table-column>
             <el-table-column prop="name" label="作者名称" width="180" >
@@ -60,16 +60,6 @@
         this.getListData();
     },
     methods:{
-        // 处理头像显示
-        handleHead(url) {
-            let fullUrl = "";
-            if(url){
-                fullUrl = this.config.baseApi + url;
-            } else {
-                fullUrl = "";
-            }
-            return fullUrl;
-        },
         handleDetails(id){
             this.$router.push('/book/author-details/'+id);
         },

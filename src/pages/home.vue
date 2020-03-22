@@ -48,7 +48,7 @@
                                     <el-card class="box-card" shadow="hover">
                                         <div class="card-header">最新图书</div>
                                         <div class="book-item" v-for="book in books" :key="book.id">
-                                            <div class="img"><img width="90" :src="handleImg(book.imgUrl)" ></div>
+                                            <div class="img"><img width="90" :src="config.handleImgUri(book.imgUrl)" ></div>
                                             <div class="content">
                                                 <div style="height:30px">
                                                     <div class="title">
@@ -73,7 +73,7 @@
                                         <div class="card-header">作品量排行</div>
                                         <div v-for="author in authors" :key="author.id">
                                             <div class="author-item">
-                                                <div style="float:left"><img class="author-item-img" :src="handleImg(author.imgUrl)"></div>
+                                                <div style="float:left"><img class="author-item-img" :src="config.handleImgUri(author.imgUrl)"></div>
                                                 <div style="float:left">
                                                     <span class="author-text">
                                                         <el-link :underline="false" @click="gotoAuthorDetails(author.id)">{{author.name}}</el-link>
@@ -109,6 +109,7 @@
             }
         },
         created() {
+            document.title = "微图书"
             this.head = this.config.baseApi + this.db.get("USER").headImgUrl;
             this.getUserMenu();
             this.getNewBooks();
@@ -154,13 +155,6 @@
                 } else if (cmd == 'pwd'){
                     this.$router.push("../pwd");
                 }
-            },
-            handleImg(url) {
-                let fullUrl = "";
-                if(url){
-                    fullUrl = this.config.baseApi + url;
-                }
-                return fullUrl;
             },
             collapseHandler(){
                 // 折叠菜单处理

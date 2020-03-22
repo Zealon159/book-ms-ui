@@ -29,7 +29,7 @@
             </template>
             <el-table-column label="封面" width="74" align="center">
                 <template slot-scope="scope" >
-                    <el-image style="height: 66px" :src="handleImg(scope.row.imgUrl)" fit="fill"></el-image>
+                    <el-image style="height: 66px" :src="config.handleImgUri(scope.row.imgUrl)" fit="fill"></el-image>
                 </template>
             </el-table-column>
             <el-table-column prop="bookId" label="图书ID" width="100">
@@ -89,14 +89,6 @@
         this.getDictionaryOptions("channel");
     },
     methods:{
-        // 处理封面图显示
-        handleImg(url) {
-            let fullUrl = "";
-            if(url){
-                fullUrl = this.config.baseApi + url;
-            }
-            return fullUrl;
-        },
         handleChapter(id){
             this.$router.push('/book/chapter-list/'+id);
         },

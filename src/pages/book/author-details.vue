@@ -11,7 +11,7 @@
             </el-tab-pane>
             <el-tab-pane label="作品列表" name="book">
                 <div class="book-item" v-for="book in books" :key="book.id">
-                    <div class="img"><img width="90" :src="handleImg(book.imgUrl)" ></div>
+                    <div class="img"><img width="90" :src="config.handleImgUri(book.imgUrl)" ></div>
                     <div class="content">
                         <div style="height:30px">
                             <div class="title">{{book.bookName}}</div>
@@ -54,13 +54,6 @@
         methods: {
             gotoBookDetails(id){
                 this.$router.push("/book/book-details/"+id);
-            },
-            handleImg(url) {
-                let fullUrl = "";
-                if(url){
-                    fullUrl = this.config.baseApi + url;
-                }
-                return fullUrl;
             },
             initData(){
                 // 详情
