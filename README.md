@@ -23,6 +23,8 @@
 - axios 异步请求统一封装，统一处理操作结果通知
 - element-ui 组件使用覆盖率达到 70% 以上
 
+演示地址：[http://books.zealon.cn/](http://books.zealon.cn/)
+
 项目接口工程基于 SpringBoot2.x 开发，[仓库地址](https://github.com/Zealon159/book-ms-interface)
 
 ## 项目截图
