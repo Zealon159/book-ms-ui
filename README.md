@@ -12,9 +12,7 @@
   </a>
 </p>
 
-## 演示地址
-
-[http://books.zealon.cn/](http://books.zealon.cn/)
+演示地址：[http://books.zealon.cn/](http://books.zealon.cn/)
 
 ## 项目介绍
 
