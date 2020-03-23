@@ -24,7 +24,7 @@
             getGirls() {
                 let prefix = "./img/girls/"
                 let g = new Array()
-                for(let i=0;i<=16;i++){
+                for(let i=0;i<=6;i++){
                     g[i] = prefix + "00-"+i+".jpg"
                 }
                 this.girls = g
