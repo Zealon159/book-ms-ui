@@ -88,8 +88,8 @@
                     let rolesCN = this.userForm.roles;
                     this.userForm.roles = [];
                     this.putRequest('/user/update', this.userForm).then(resp => {
+                        this.userForm.roles = rolesCN;
                         if (resp && resp.code==200) {
-                            this.userForm.roles = rolesCN;
                             // 更新本地用户信息
                             let user = this.db.get("USER");
                             user.userName = this.userForm.userName;
