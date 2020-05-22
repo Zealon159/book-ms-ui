@@ -22,7 +22,7 @@
         },
         methods: {
             getGirls() {
-                let prefix = "./img/girls/"
+                let prefix = "http://bookstore.zealon.cn/"
                 let g = new Array()
                 for(let i=0;i<=6;i++){
                     g[i] = prefix + "00-"+i+".jpg"
